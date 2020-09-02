@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Auth</title>
+    <link rel="stylesheet" href="{% static 'css/auth_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+</head>
+<body>
+{% block content %}
+    <div class="form_wrapper">
+        <div class="form_container">
+            {% if user.is_authenticated %}
+                <h1>Упс... А как вы сюда попали?</h1>
+                <p>Вы уже вошли на этом сайте под пользователем {{ user.username }}</p>
+                <div class="button"><a href="{% url 'authorization:logout' %}" class="button" >Выйти с аккаунта (LogOut)</a></div>
+                <div class="button"><a href="{% url 'articles:index' %}">Вернуться к блогу</a></div>
+            {% else %}
+                <h1>Выберите действие</h1>
+                <div class="button"><a href="{% url 'authorization:login' %}" class="button" >Войти</a></div>
+                <div class="button"><a href="{% url 'authorization:register' %}" class="button" >Зарегистрироваться</a></div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/auth_js.js' %}"></script>
+</body>
+</html>

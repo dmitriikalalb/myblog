@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} Blog {% endblock %}</title>
+
+    <!-- FONTS ONLINE -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic,700,700italic,800,800italic,300'
+          rel='stylesheet' type='text/css'>
+
+    <!--MAIN STYLE-->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+
+<!-- Page Wrap -->
+<div id="wrap">
+
+    <!-- Resume -->
+    <div class="content animated bounceInUp">
+        <div class="container">
+
+            <!-- Sub Banner -->
+            <div class="sub-banner">
+                <h4>blog</h4>
+                {% block login %}
+
+                {% endblock %}
+
+            </div>
+
+            <!-- Contact -->
+            <section class="defult blog">
+                <div class="row">
+                    <div class="col-md-8"><a class="post-tittle margin-top-20 margin-bottom-20">
+                        {% block typeOfPage %}{% endblock %}</a></div>
+                    <div class="col-md-9">
+                        {% block article %} {% endblock %}
+                    </div>
+
+                    <!-- Right Sidebar -->
+                    <div class="col-md-3">
+                        <div class="blog-side-bar">
+                            <!-- Search -->
+                            <div class="search margin-bottom-30">
+                                <div class="form-group">
+                                    <input id="search" type="search" class="input" placeholder="Поиск..">
+                                    <button class="sea-icon"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- TAGS -->
+                            <div class="cate margin-top-40">
+                                <h5><a href="{% url 'articles:categories' %}">Категории</a></h5>
+                                <hr>
+                                <ul>
+                                    {% if latest_category_list %}
+                                        {% for a in latest_category_list %}
+                                            <li><a href="{# ! АЙДИШНИК КАТЕГОРИИ #}">{{ a.name }} <span>(25)</span></a></li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                            <!-- POST -->
+                            <div class="papu-post margin-top-40">
+                                <h5>Популярные статьи</h5>
+                                <hr>
+                                <ul>
+                                    {% if popular_articles_list %}
+                                        {% for b in popular_articles_list %}
+                                            <li class="media">
+                                                <div class="media-left"><a href="{% url 'articles:detail' b.id %}"> <img class="media-object" src="
+                                                        {% static 'images/' %}{{ b.image }}" alt=""></a></div>
+                                                <div class="media-body"><a class="media-heading"
+                                                                           href="{% url 'articles:detail' b.id %}">{{ b.title }} </a>
+                                                    <span>{{ b.pub_date|date:'M d, Y' }}</span></div>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <!-- TAGS -->
+                            <div class="tags margin-top-40">
+                                <h5><a href="{% url 'articles:tags' %}">Теги</a></h5>
+                                <hr>
+                                <ul>
+                                    {% if latest_tag_list %}
+                                        {% for c in latest_tag_list %}
+                                            <li><a href="{# ! АЙДИШНИК ТЕГА #}">{{ c.name }} </a></li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <!-- TAGS -->
+                            <div class="cate margin-top-40">
+                                <h5>Реклама</h5>
+                                <hr>
+                                <p>Здесь могла бы быть ваша реклама :D </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- Wrap End -->
+<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/counter.js' %}"></script>
+<script src="{% static 'js/jquery.prettyPhoto.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

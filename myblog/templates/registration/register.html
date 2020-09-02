@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="form_wrapper">
+        <div class="form_container">
+            {% if user.is_authenticated %}
+                <h1>Упс... А как вы сюда попали?</h1>
+                <div class="button"><a href="{% url 'authorization:logout' %}" class="button" >Выйти с аккаунта (LogOut)</a></div>
+                <div class="button"><a href="{% url 'articles:index' %}">Вернуться к блогу</a></div>
+            {% else %}
+            <div class="title_container">
+                <h2>Регистрация</h2>
+            </div>
+            <div class="row clearfix">
+                <div class="">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="input_field"><span><i aria-hidden="true" class="fa fa-user-secret"></i></span>
+                            {{ form.username }}
+                        </div>
+                        <div class="input_field"><span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                            {{ form.password1 }}
+                        </div>
+                        <div class="input_field"><span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                            {{ form.password2 }}
+                        </div>
+                        <div class="input_field"><span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                            {{ form.email }}
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col_half">
+                                <div class="input_field"><span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                    {{ form.first_name }}
+                                </div>
+                            </div>
+                            <div class="col_half">
+                                <div class="input_field"><span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+                        </div>
+                        {#                      <div class="input_field radio_option">#}
+                        {#                      <input type="radio" name="radiogroup1" id="rd1">#}
+                        {#                      <label for="rd1">Male</label>#}
+                        {#                      <input type="radio" name="radiogroup1" id="rd2">#}
+                        {#                      <label for="rd2">Female</label>#}
+                        {#                      </div>#}
+                        {#                      <div class="input_field select_option">#}
+                        {#                        <select>#}
+                        {#                          <option>Select a country</option>#}
+                        {#                          <option>Option 1</option>#}
+                        {#                          <option>Option 2</option>#}
+                        {#                        </select>#}
+                        {#                        <div class="select_arrow"></div>#}
+                        {#                      </div>#}
+                        <div class="input_field checkbox_option">
+                            <input type="checkbox" id="cb1" required>
+                            <label for="cb1">Я согласен с условиями пользования</label>
+                        </div>
+                        <div class="input_field checkbox_option">
+                            <input type="checkbox" id="cb2" required>
+                            <label for="cb2">Я хочу получать рассылку новостей</label>
+                        </div>
+                        <input class="button" type="submit" value="Зарегистрироваться"/>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        <p class="error">{{ form.errors }}</p>
+        </div>
+    </div>
+    <p class="credit">Есть аккаунт? <a href="{% url 'authorization:login' %}">Просто войдите</a></p>
+{% endblock %}

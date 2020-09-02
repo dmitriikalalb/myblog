@@ -1,0 +1,125 @@
+{% extends 'base_blog.html' %}
+{% load static %}
+
+{% block login %}
+    <ul class="breadcrumb">
+        {% if user.is_superuser == True %}
+            <li><a href="../../admin/">{{ user.username }}</a></li>
+        {% else %}
+            <li>{{ user.username }}</li>
+        {% endif %}
+        <li><a href="{% url 'authorization:logout' %}">Выйти</a></li>
+    </ul>
+{% endblock %}
+
+{% block article %}
+    <article><img class="img-responsive full-width" src="{% static 'images/' %}{{ article.image }}"
+                  alt="">
+        <div class="blog-post">
+            <div class="row">
+                <div class="col-md-4">
+
+                    <!-- Post Info -->
+                    <div class="post-admin text-center"><img
+                            src="{% static 'images/' %}{{ article.author_name.image }}" alt="">
+                        <ul>
+                            <li><i class="fa fa-user"></i>
+                                <p>{{ article.author_name.name }}</p>
+                            </li>
+                            <li><i class="fa fa-eye"></i>
+                                <p>{{ article.views }} просмотра(ов)</p>
+                            </li>
+                            <li><i class="fa fa-clock-o"></i>
+                                <p>{{ article.pub_date|date:'d F' }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8"><a
+                        class="post-tittle margin-top-20 margin-bottom-20">{{ article.title }}</a>
+                    <div style="font-size: 14px; margin-bottom: 10px; font-weight: bold; color: #66afe9">
+                        Категория: {{ article.category.name }} <br> Теги: #{{ article.tag1.name }}
+                    </div>
+                    <p>1 part of text</p>
+                </div>
+                <div class="col-md-12">
+                    <p>{{ article.text }}</p>
+                </div>
+            </div>
+
+            <!--=======  COMMENTS =========-->
+            <div class="comments">
+                <h4>Комментарии </h4>
+                <ul class="media-list">
+
+                    {% if latest_comment_list %}
+                        <!--=======  COMMENTS =========-->
+                        {% for a in latest_comment_list %}
+                            <li class="media">
+                                <div class="media-left"><a href=""> <img class="media-object"
+                                                                         src="{% static 'images/b-avatar-1.jpg' %}"
+                                                                         alt=""> </a></div>
+                                <div class="media-body">
+                                    <h6 class="media-heading">{{ a.author_name }}<span> {{ a.pub_date|date:'d M - Y' }}</span>
+                                    </h6>
+                                    <p>{{ a.comment_text }}</p>
+                                </div>
+                            </li>
+                        {% endfor %}
+
+
+                    {% else %}
+                        <p>Комментариев к этой статье пока не существуют. Станьте первым :)</p>
+                    {% endif %}
+
+
+                </ul>
+
+                <!--=======  LEAVE COMMENTS =========-->
+                <h4>Оставить комментарий</h4>
+                <form method="post" action="{% url 'articles:leave_comment' article.id %}">
+                    {% csrf_token %}
+                    <span style="color: red">*Ваш комментарий появится после того как его подтвердит администрация или модераторы сайта</span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="row">
+                                <li class="col-sm-12">
+                                    <label>
+                                        <input type="text" class="form-control" required=""
+                                               name="name" placeholder="Как тебя зовут?">
+                                    </label>
+                                </li>
+                                <li class="col-sm-12">
+                                    <label>
+                                        <input type="text" class="form-control" name="email"
+                                               placeholder="Email" required="">
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="row">
+                                <li class="col-sm-12">
+                                    <label>
+                                                            <textarea class="form-control" name="text"
+                                                                      placeholder="Текст комментария"
+                                                                      required=""></textarea>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <ul class="row">
+                                <li class="col-sm-12">
+                                    <button type="submit" name="do_comment" class="btn">Оставить
+                                        комментарий
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </article>
+{% endblock %}

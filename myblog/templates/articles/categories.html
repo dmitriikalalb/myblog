@@ -1,0 +1,27 @@
+{% extends 'base_blog.html' %}
+{% load static %}
+
+{% block title %} Все категории {% endblock %}
+
+{% block login %}
+    <ul class="breadcrumb">
+        {% if user.is_superuser == True %}
+            <li><a href="../admin/">{{ user.username }}</a></li>
+        {% else %}
+            <li>{{ user.username }}</li>
+        {% endif %}
+        <li><a href="{% url 'authorization:logout' %}">Выйти</a></li>
+    </ul>
+{% endblock %}
+
+{% block typeOfPage %} Все категории {% endblock %}
+
+{% block article %}
+    {% if all_categories %}
+        {% for a in all_categories %}
+            {{ a.name }}
+        {% endfor %}
+    {% else %}
+        <p>Статей в базе данных пока что не существует :(</p>
+    {% endif %}
+{% endblock %}
